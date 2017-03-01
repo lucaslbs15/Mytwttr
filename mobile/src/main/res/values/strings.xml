@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My twttr</string>
+    <string name="title_activity_login">Entrar</string>
+
+    <!-- content_login -->
+    <string name="login_hint_user_name">Usuário ou E-mail</string>
+    <string name="login_hint_password">Sua senha</string>
+    <string name="login_button_login">Login</string>
 </resources>
