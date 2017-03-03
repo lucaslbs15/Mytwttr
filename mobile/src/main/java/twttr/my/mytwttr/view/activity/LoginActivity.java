@@ -1,35 +1,61 @@
 package twttr.my.mytwttr.view.activity;
 
-import android.database.DatabaseUtils;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-
 import twttr.my.mytwttr.R;
 import twttr.my.mytwttr.databinding.ContentLoginBinding;
-import twttr.my.mytwttr.model.object.Login;
+import twttr.my.mytwttr.view.component.CustomPalette;
 import twttr.my.mytwttr.viewmodel.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private ContentLoginBinding binding = null;
+    private LoginViewModel loginViewModel = null;
+    private CustomPalette customPalette = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView isn't used in binding data concepts
-        //setContentView(R.layout.login);
-        //ContentLoginBinding class is generated automatically
-        ContentLoginBinding binding = DataBindingUtil.setContentView(this, R.layout.content_login);
-        binding.setViewModel(new LoginViewModel());
-        Login login = new Login();
-        binding.setLogin(login);
+        binding = DataBindingUtil.setContentView(this, R.layout.content_login);
+        loginViewModel = new LoginViewModel();
+        binding.setViewModel(loginViewModel);
+        loginViewModel.onCreate();
 
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        */
+        customPalette = new CustomPalette();
+        customPalette.createPaletteSync(BitmapFactory.decodeResource(getResources(), R.drawable.image_background_login_02));
+        binding.contentLoginButtonLogin.setTextColor(customPalette.getLightVibrantRgb());
+        binding.contentLoginButtonLogin.setBackgroundColor(customPalette.getVibrantRgb());
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        loginViewModel.onStart();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        loginViewModel.onResume();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        loginViewModel.onPause();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        loginViewModel.onStop();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        loginViewModel.onDestroy();
     }
 }
