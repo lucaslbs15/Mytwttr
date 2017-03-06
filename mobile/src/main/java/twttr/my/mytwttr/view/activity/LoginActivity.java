@@ -4,6 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
 import twttr.my.mytwttr.R;
 import twttr.my.mytwttr.databinding.ContentLoginBinding;
 import twttr.my.mytwttr.view.component.CustomPalette;
@@ -23,12 +25,11 @@ public class LoginActivity extends AppCompatActivity {
         binding.setViewModel(loginViewModel);
         loginViewModel.onCreate();
 
-        customPalette = new CustomPalette();
-        customPalette.createPaletteSync(BitmapFactory.decodeResource(getResources(), R.drawable.image_background_login_02));
-        binding.contentLoginButtonLogin.setTextColor(customPalette.getLightVibrantRgb());
-        binding.contentLoginButtonLogin.setBackgroundColor(customPalette.getVibrantRgb());
+        setBackground();
+        setColorsByPalette();
     }
 
+    //region lifecycle
     @Override
     public void onStart(){
         super.onStart();
@@ -57,5 +58,28 @@ public class LoginActivity extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         loginViewModel.onDestroy();
+    }
+    //endregion
+
+    private void setBackground(){
+        int drawableId = R.drawable.image_background_login_01;
+        binding.contentLoginBackground.setTag(drawableId);
+        binding.contentLoginBackground.setBackgroundResource(drawableId);
+    }
+
+    private void setColorsByPalette(){
+        Integer backgroundID = (Integer)binding.contentLoginBackground.getTag();
+        if(backgroundID != null && backgroundID != 0){
+            customPalette = new CustomPalette();
+            customPalette.createPaletteSync(BitmapFactory.decodeResource(getResources(), backgroundID));
+            //button
+            binding.contentLoginButtonLogin.setTextColor(customPalette.getLightVibrantRgb());
+            binding.contentLoginButtonLogin.setBackgroundColor(customPalette.getVibrantRgb());
+            //user name & password EditText
+            binding.contentLoginEditTextUserName.setTextColor(customPalette.getLightVibrantTitleTextColor());
+            binding.contentLoginEditTextUserName.setHintTextColor(customPalette.getLightMutedTitleTextColor());
+            binding.contentLoginEditTextPassword.setTextColor(customPalette.getLightVibrantTitleTextColor());
+            binding.contentLoginEditTextPassword.setHintTextColor(customPalette.getLightMutedTitleTextColor());
+        }
     }
 }
